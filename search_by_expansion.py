@@ -28,7 +28,7 @@ delta_name = ['^', '<', 'v', '>']
 
 def search(grid,init,goal,cost):
     # ----------------------------------------
-    # modify code below
+    # search and find shortest path to goal
     # ----------------------------------------
     rows = len(grid)
     columns = len(grid[0])
@@ -59,3 +59,44 @@ def search(grid,init,goal,cost):
                         print('shortest path: {}'.format(path))
                         return path
     return 'fail'
+
+def expand():
+    # ----------------------------------------
+    # search and find expansion values to shortest path
+    # ----------------------------------------
+    closed = [[0] * len(grid[0]) for i in grid]
+    closed[init[0]][init[1]] = 1
+    expand = [[-1] * len(grid[0]) for i in grid]
+    x = init[0]
+    y = init[1]
+    g = 0
+    open = [[g, x, y]]
+    expand[x][y] = g
+    count = 0
+    found = False # flag that is set when search is complete
+    resign = False # flag set if we can't find expand
+    while not found and not resign:
+        if len(open) == 0:
+            resign = True
+        else:
+            open.sort()
+            open.reverse()
+            next = open.pop()
+            x = next[1]
+            y = next[2]
+            g = next[0]
+            expand[x][y] = expand_counter
+            if x == goal[0] and y == goal[1]:
+                found = True
+            else:
+                for i in range(len(delta)):
+                    x2 = x + delta[i][0]
+                    y2 = y + delta[i][1]
+                    if x2 >= 0 and x2 < len(grid) and y2 >=0 and y2 <
+                        len(grid[0]):
+                        if closed[x2][y2] == 0 and grid[x2][y2] == 0:
+                            g2 = g + cost
+                            open.append([g2, x2, y2])
+                            closed[x2][y2] = 1
+                            count += 1 #equivavelent to: count = count + 1
+return expand 
